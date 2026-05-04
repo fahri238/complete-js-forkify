@@ -1,0 +1,23 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe Application",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fahri238/complete-js-forkify.git"
+  },
+  "author": "Fahri Ilmi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fahri238/complete-js-forkify/issues"
+  },
+  "homepage": "https://github.com/fahri238/complete-js-forkify#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.4",
+    "parcel": "^2.16.4"
+  }
+}
