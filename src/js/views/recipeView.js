@@ -3,7 +3,6 @@
 // import icons from '../img/icons.svg'// parcel 1
 import icons from 'url:../../img/icons.svg'; // parcel 2
 import fracty from 'fracty';
-console.log(fracty(0.5));
 
 class RecipeView {
   //private property
