@@ -13,8 +13,6 @@ import 'regenerator-runtime/runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 
-
-
 // NEW API URL (instead of the one shown in the video)
 // https://forkify-api.jonas.io
 
@@ -36,6 +34,8 @@ const controlRecipe = async function () {
   }
 };
 
-['hashchange', 'load'].forEach(event => addEventListener(event, controlRecipe));
-// window.addEventListener('hashchange', showRecipe);
-// window.addEventListener('load', showRecipe);
+// Subscriber
+const init = function () {
+  recipeView.addHandlerRender(controlRecipe);
+};
+init();
