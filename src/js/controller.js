@@ -3,6 +3,7 @@
 
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
+import searchView from './views/searchView.js';
 
 // Polyfills to support older browsers (e.g., IE11)
 // polyfiling everyting
@@ -11,12 +12,6 @@ import 'core-js/stable';
 // polyfiling async await
 import 'regenerator-runtime/runtime';
 
-const recipeContainer = document.querySelector('.recipe');
-
-// NEW API URL (instead of the one shown in the video)
-// https://forkify-api.jonas.io
-
-///////////////////////////////////////
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -34,8 +29,25 @@ const controlRecipe = async function () {
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    // 1) get search query
+    const query = searchView.getQuery();
+    if (!query) return;
+
+    // 2) load search result
+    await model.loadSearchResults(query);
+
+    // 3) render results
+    console.log(model.state.search.results);
+  } catch (error) {
+    recipeView.renderError(error);
+  }
+};
+
 // Subscriber
 const init = function () {
   recipeView.addHandlerRender(controlRecipe);
+  searchView.addHandleSearch(controlSearchResults);
 };
 init();
