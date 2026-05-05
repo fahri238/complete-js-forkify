@@ -3,7 +3,7 @@
 // http library
 
 import 'regenerator-runtime/runtime';
-import { API_URL } from './config';
+import { API_URL, RES_PER_PAGE } from './config';
 import { getJSON } from './helper';
 
 export const state = {
@@ -11,6 +11,9 @@ export const state = {
   search: {
     query: '',
     results: [],
+    // resultsPerPage: 10, "10" like a magic number
+    page: 1, // default
+    resultsPerPage: RES_PER_PAGE, // better way, because we know what value for
   },
 };
 
@@ -39,7 +42,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query;
-    
+
     const data = await getJSON(`${API_URL}?search=${query}`);
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -52,4 +55,12 @@ export const loadSearchResults = async function (query) {
   } catch (error) {
     throw error;
   }
+};
+
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page
+  const start =(page - 1) * state.search.resultsPerPage //0;
+  const end = page * state.search.resultsPerPage //9;
+
+  return state.search.results.slice(start, end);
 };

@@ -13,9 +13,9 @@ import 'core-js/stable';
 // polyfiling async await
 import 'regenerator-runtime/runtime';
 
-if (module.hot) {
-  module.hot.accept();
-}
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 const controlRecipe = async function () {
   try {
@@ -45,11 +45,11 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) render results
-    resultsView.render(model.state.search.results);
+    resultsView.render(model.getSearchResultsPage());
   } catch (error) {
     resultsView.renderError();
   }
-};
+};  
 
 // Subscriber
 const init = function () {
