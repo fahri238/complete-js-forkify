@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime';
 import { API_URL } from './config';
 import { getJSON } from './helper';
 
+
 export const state = {
   recipe: {},
 };
@@ -28,6 +29,6 @@ export const loadRecipe = async function (id) {
     };
   } catch (error) {
     // temp error handling
-    console.error(`${error} 💥`);
+    throw error;
   }
 };
