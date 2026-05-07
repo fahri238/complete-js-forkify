@@ -4,12 +4,47 @@ export default class View {
   _data;
   // public method
   render(data) {
-    if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  update(data) {
+    this._data = data;
+    const newMarkup = this._generateMarkup();
+
+    const newDom = document.createRange().createContextualFragment(newMarkup);
+    const newElement = Array.from(newDom.querySelectorAll('*'));
+    const currElement = Array.from(this._parentElement.querySelectorAll('*'));
+
+    console.log(newElement);
+    console.log(currElement);
+
+    newElement.forEach((newEl, i) => {
+      const currEl = currElement[i];
+      // console.log(currEl, newEl.isEqualNode(currEl));
+
+      // update changed text
+      if (
+        !newEl.isEqualNode(currEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        // console.log('💥', newEl.firstChild.nodeValue.trim());
+        currEl.textContent = newEl.textContent;
+      }
+
+      // update changed atributes
+      if (!newEl.isEqualNode(currEl)) {
+        console.log(Array.from(newEl.attributes));
+        Array.from(newEl.attributes).forEach(attribute =>
+          currEl.setAttribute(attribute.name, attribute.value),
+        );
+      }
+    });
   }
 
   // private method
