@@ -21,9 +21,6 @@ export default class View {
     const newElement = Array.from(newDom.querySelectorAll('*'));
     const currElement = Array.from(this._parentElement.querySelectorAll('*'));
 
-    console.log(newElement);
-    console.log(currElement);
-
     newElement.forEach((newEl, i) => {
       const currEl = currElement[i];
       // console.log(currEl, newEl.isEqualNode(currEl));
@@ -39,7 +36,6 @@ export default class View {
 
       // update changed atributes
       if (!newEl.isEqualNode(currEl)) {
-        console.log(Array.from(newEl.attributes));
         Array.from(newEl.attributes).forEach(attribute =>
           currEl.setAttribute(attribute.name, attribute.value),
         );

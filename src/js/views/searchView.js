@@ -13,6 +13,7 @@ class SearchView {
   addHandleSearch(handler) {
     this._parenEl.addEventListener('submit', function (e) {
       e.preventDefault();
+      
       handler();
     });
   }
