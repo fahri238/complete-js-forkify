@@ -7,6 +7,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import paginationView from './views/paginationView.js';
 import bookmarkView from './views/bookmarkView.js';
+import addRecipeView from './views/addRecipeView.js';
 
 // Polyfills to support older browsers (e.g., IE11)
 // polyfiling everyting
@@ -95,6 +96,10 @@ const controlBookmarks = function () {
   bookmarkView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = function (newRecipe) {
+  console.log(newRecipe);
+};
+
 // Subscriber
 const init = function () {
   bookmarkView.addHandlerRender(controlBookmarks);
@@ -103,5 +108,6 @@ const init = function () {
   recipeView.addBookmark(controlAddBookmark);
   searchView.addHandleSearch(controlSearchResults);
   paginationView._addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();
