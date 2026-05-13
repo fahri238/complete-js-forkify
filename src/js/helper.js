@@ -10,6 +10,28 @@ const timeout = function (s) {
   });
 };
 
+export const AJAX = async function (url, uploadData = undefined) {
+  try {
+    const fetchPro = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url);
+
+    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]); // better way using config. so everyone can understand where value coming from
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${data.message} ${res.status}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/*
 export const getJSON = async function (url) {
   try {
     // const res = await Promise.race([fetch(`${url}`), timeout(10)]); // magic values : someone that saw our code, and dont know where value coming from
@@ -44,3 +66,4 @@ export const sendJSON = async function (url, uploadData) {
     throw error;
   }
 };
+*/
