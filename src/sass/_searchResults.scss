@@ -1,3 +1,46 @@
+.sort-result {
+  color: $color-primary;
+  gap: 1.2rem;
+  cursor: pointer;
+  width: 90%;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  transition: all 0.2s;
+
+  appearance: base-select;
+
+  padding-bottom: 1.6rem;
+  border-bottom: #b6b4b4 solid 1px;
+}
+
+.sort-result__label {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.sort-result__select {
+  display: block;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  border: none;
+  border-radius: 0.8rem;
+  color: $color-grad-2;
+  background-color: $color-grey-light-2;
+
+  &:hover {
+    color: #fff;
+    background-color: $color-primary;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .search-results {
   padding: 3rem 0;
   display: flex;
@@ -12,6 +55,7 @@
 .pagination {
   margin-top: auto;
   padding: 0 3.5rem;
+  position: relative;
 
   &::after {
     content: '';
@@ -22,6 +66,11 @@
   &__btn {
     &--prev {
       float: left;
+    }
+    &--center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
     }
     &--next {
       float: right;

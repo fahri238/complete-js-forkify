@@ -9,6 +9,7 @@ import paginationView from './views/paginationView.js';
 import bookmarkView from './views/bookmarkView.js';
 import addRecipeView from './views/addRecipeView.js';
 import { MODAL_CLOSE_SEC } from './config.js';
+import sortView from './views/sortView.js';
 
 // Polyfills to support older browsers (e.g., IE11)
 // polyfiling everyting
@@ -18,6 +19,7 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { MODAL_CLOSE_SEC } from './config.js';
 
+// prevent refresh browser when code change
 // if (module.hot) {
 //   module.hot.accept();
 // }
@@ -60,10 +62,17 @@ const controlSearchResults = async function () {
 
     // 4) render initial pagination buttons
     paginationView.render(model.state.search);
+
+    // 5) render sort button
+    sortView.render();
   } catch (error) {
     resultsView.renderError();
   }
 };
+
+// const constrolSort = function(data) {
+
+// }
 
 const controlPagination = function (goToPage) {
   // 1) render NEW results

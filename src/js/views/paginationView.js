@@ -8,6 +8,7 @@ class PaginationView extends View {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--inline');
       if (!btn) return;
+      if (btn.classList.contains('ignore')) return;
       const goToPage = +btn.dataset.goto;
 
       handler(goToPage);
@@ -22,7 +23,7 @@ class PaginationView extends View {
 
     // Page 1: there are other page
     if (currentPage === 1 && numPages > 1) {
-      return this.__generateMarkupPagination(currentPage, 'next');
+      return this._generateMarkupPagination(currentPage, 'next');
     }
 
     // Last page
@@ -43,12 +44,18 @@ class PaginationView extends View {
   _generateMarkupPagination(currPage, previosOrNext) {
     if (previosOrNext === 'next') {
       return `
+      
       <button data-goto="${currPage + 1}" class="btn--inline pagination__btn--next">
         <span>Page ${currPage + 1}</span>
         <svg class="search__icon">
           <use href="${icons}#icon-arrow-right"></use>
         </svg>
-      </button>`;
+      </button>
+      
+      <button class="btn--inline ignore pagination__btn--center">
+        <span>Page ${currPage}</span>
+      </button>
+      `;
     }
 
     if (previosOrNext === 'previous') {
@@ -58,7 +65,11 @@ class PaginationView extends View {
           <use href="${icons}#icon-arrow-left"></use>
         </svg>
         <span>Page ${currPage - 1}</span>
-      </button>`;
+      </button>
+
+      <button class="btn--inline ignore pagination__btn--center">
+        <span>Page ${currPage}</span>
+      </button>`
     }
 
     if (previosOrNext === 'previousNext') {
@@ -69,6 +80,11 @@ class PaginationView extends View {
         </svg>
         <span>Page ${currPage - 1}</span>
       </button>
+
+      <button class="btn--inline ignore pagination__btn--center">
+        <span>Page ${currPage}</span>
+      </button>
+
       <button data-goto="${currPage + 1}" class="btn--inline pagination__btn--next">
         <span>Page ${currPage + 1}</span>
         <svg class="search__icon">
