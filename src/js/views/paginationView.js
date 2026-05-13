@@ -28,19 +28,19 @@ class PaginationView extends View {
     // Last page
     if (currentPage === numPages && numPages > 1) {
       // Page 1: there are NO other page
-      return this.__generateMarkupPagination(currentPage, 'previous');
+      return this._generateMarkupPagination(currentPage, 'previous');
     }
 
     // Other page
     if (currentPage < numPages) {
-      return this.__generateMarkupPagination(currentPage, 'previousNext');
+      return this._generateMarkupPagination(currentPage, 'previousNext');
     }
 
     // Page 1: there are NO other page
     return ``;
   }
 
-  __generateMarkupPagination(currPage, previosOrNext) {
+  _generateMarkupPagination(currPage, previosOrNext) {
     if (previosOrNext === 'next') {
       return `
       <button data-goto="${currPage + 1}" class="btn--inline pagination__btn--next">

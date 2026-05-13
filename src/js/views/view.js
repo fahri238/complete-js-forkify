@@ -2,6 +2,16 @@ import icons from 'url:../../img/icons.svg'; // parcel 2
 
 export default class View {
   _data;
+  // function standarization
+  /**
+   * Render the received object to the DOM
+   * @param {Object | Object[]} data the data to be rendered (e.g. recipe)
+   * @param {Boolean} [render = true] if false, create markup string instead of rendering to the DOM
+   * @returns {undefined | string} A markup string is returned if render = false
+   * @this {Object} View instance 
+   * @author Fahri Ilmi
+   * @todo Finish Implementation
+   */
   // public method
   render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
@@ -10,7 +20,7 @@ export default class View {
     this._data = data;
     const markup = this._generateMarkup();
     
-    if (!render) return markup;
+    if (!render) return markup; 
     
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
