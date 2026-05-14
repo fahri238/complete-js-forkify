@@ -159,29 +159,32 @@ export const uploadRecipe = async function (newRecipe) {
 export const sortResultRecipes = async function (sortBy) {
   state.search.sortBy = sortBy;
 
+  // Fetch ALL search results with full recipe data for accurate sorting
   const res = await Promise.all(
-    getSearchResultsPage(state.search.page).map(async el => {
+    state.search.results.map(async el => {
       const data = await AJAX(`${API_URL}${el.id}?key=${KEY}`);
       return createRecipeObject(data);
     }),
   );
 
-  const start = (state.search.page - 1) * state.search.resultsPerPage;
+  // Replace all results with full data
+  state.search.results = res;
 
-  console.log(res);
-  res.forEach((el, i) => (state.search.results[start + i] = el));
-
+  // Sort based on selected option
   if (sortBy === 'duration') {
-    state.search.results.sort((a, b) => (a.cookingTime || 0) - (b.cookingTime || 0));
-    console.log('fullfilled');
+    state.search.results.sort(
+      (a, b) => (a.cookingTime || 0) - (b.cookingTime || 0),
+    );
   }
 
   if (sortBy === 'number-ings') {
     state.search.results.sort((a, b) => {
-      const timeA = a.ingredients.length || 0;
-      const timeB = b.ingredients.length || 0;
-      timeA - timeB;
+      const ingredsA = a.ingredients.length || 0;
+      const ingredsB = b.ingredients.length || 0;
+      return ingredsA - ingredsB;
     });
-    console.log('fullfilled');
   }
+
+  // Reset to page 1 after sorting
+  state.search.page = 1;
 };
