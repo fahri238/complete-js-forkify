@@ -11,14 +11,12 @@
   transition: all 0.2s;
 
   appearance: base-select;
-
-  padding-bottom: 1.6rem;
-  border-bottom: #b6b4b4 solid 1px;
 }
 
 .sort-result__label {
   font-size: 1.3rem;
   font-weight: 800;
+  margin-bottom: 1.6rem;
 }
 
 .sort-result__select {
@@ -30,6 +28,7 @@
   border-radius: 0.8rem;
   color: $color-grad-2;
   background-color: $color-grey-light-2;
+  margin-bottom: 1.6rem;
 
   &:hover {
     color: #fff;

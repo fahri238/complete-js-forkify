@@ -70,9 +70,19 @@ const controlSearchResults = async function () {
   }
 };
 
-// const constrolSort = function(data) {
+const controlSort = async function (sortBy) {
+  try {
+    resultsView.renderSpinner();
 
-// }
+    await model.sortResultRecipes(sortBy);
+    // 2) load search result
+    resultsView.render(model.getSearchResultsPage());
+
+    paginationView.render(model.state.search);
+  } catch (err) {
+    sortView.renderError();
+  }
+};
 
 const controlPagination = function (goToPage) {
   // 1) render NEW results
@@ -143,6 +153,7 @@ const init = function () {
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addBookmark(controlAddBookmark);
   searchView.addHandleSearch(controlSearchResults);
+  sortView.addHandlerSort(controlSort);
   paginationView._addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
 };

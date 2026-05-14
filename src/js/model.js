@@ -15,6 +15,7 @@ export const state = {
     // resultsPerPage: 10, "10" like a magic number
     page: 1, // default
     resultsPerPage: RES_PER_PAGE, // better way, because we know what value for
+    sortBy: 'duration', // default
   },
   bookmarks: [],
 };
@@ -152,5 +153,35 @@ export const uploadRecipe = async function (newRecipe) {
     addBoomark(state.recipe);
   } catch (err) {
     throw err;
+  }
+};
+
+export const sortResultRecipes = async function (sortBy) {
+  state.search.sortBy = sortBy;
+
+  const res = await Promise.all(
+    getSearchResultsPage(state.search.page).map(async el => {
+      const data = await AJAX(`${API_URL}${el.id}?key=${KEY}`);
+      return createRecipeObject(data);
+    }),
+  );
+
+  const start = (state.search.page - 1) * state.search.resultsPerPage;
+
+  console.log(res);
+  res.forEach((el, i) => (state.search.results[start + i] = el));
+
+  if (sortBy === 'duration') {
+    state.search.results.sort((a, b) => (a.cookingTime || 0) - (b.cookingTime || 0));
+    console.log('fullfilled');
+  }
+
+  if (sortBy === 'number-ings') {
+    state.search.results.sort((a, b) => {
+      const timeA = a.ingredients.length || 0;
+      const timeB = b.ingredients.length || 0;
+      timeA - timeB;
+    });
+    console.log('fullfilled');
   }
 };
