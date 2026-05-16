@@ -12,6 +12,7 @@ export const state = {
   search: {
     query: '',
     results: [],
+    resultsSorted: [],
     // resultsPerPage: 10, "10" like a magic number
     page: 1, // default
     resultsPerPage: RES_PER_PAGE, // better way, because we know what value for
@@ -78,7 +79,11 @@ export const getSearchResultsPage = function (page = state.search.page) {
   const start = (page - 1) * state.search.resultsPerPage; //0;
   const end = page * state.search.resultsPerPage; //9;
 
-  return state.search.results.slice(start, end);
+  const resultToUse =
+    state.search.sortBy === 'default'
+      ? state.search.results
+      : state.search.resultsSorted;
+  return resultToUse.slice(start, end);
 };
 
 export const updateServings = function (newServings) {
@@ -168,16 +173,19 @@ export const sortResultRecipes = async function (sortBy) {
   );
 
   // Replace all results with full data
-  state.search.results = res;
 
   // Sort based on selected option
   if (sortBy === 'duration') {
-    state.search.results.sort(
-      (a, b) => (a.cookingTime || 0) - (b.cookingTime || 0),
-    );
+    state.search.resultsSorted = res;
+    state.search.results.sort((a, b) => {
+      const timeA = a.cookingTime || 0;
+      const timeB = b.cookingTime || 0;
+      return timeA - timeB;
+    });
   }
 
   if (sortBy === 'number-ings') {
+    state.search.resultsSorted = res;
     state.search.results.sort((a, b) => {
       const ingredsA = a.ingredients.length || 0;
       const ingredsB = b.ingredients.length || 0;
@@ -185,6 +193,9 @@ export const sortResultRecipes = async function (sortBy) {
     });
   }
 
-  // Reset to page 1 after sorting
-  state.search.page = 1;
+  if (sortBy === 'default') {
+    state.search.results = [];
+    state.search.page = 1;
+    return;
+  }
 };
