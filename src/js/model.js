@@ -16,7 +16,7 @@ export const state = {
     // resultsPerPage: 10, "10" like a magic number
     page: 1, // default
     resultsPerPage: RES_PER_PAGE, // better way, because we know what value for
-    sortBy: 'duration', // default
+    sortBy: 'default', // default
   },
   bookmarks: [],
 };
@@ -195,7 +195,8 @@ export const sortResultRecipes = async function (sortBy) {
 
   if (sortBy === 'default') {
     state.search.results = [];
-    state.search.page = 1;
     return;
   }
+
+  state.search.page = 1;
 };
