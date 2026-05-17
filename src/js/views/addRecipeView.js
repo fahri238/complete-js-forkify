@@ -5,17 +5,24 @@ class AddRecipeView extends View {
   _parentElement = document.querySelector('.upload');
   _message = 'Recipe was successfully uploaded :)';
   _window = document.querySelector('.add-recipe-window');
+  _windowMoreIngredients = document.querySelector('.window-add-ingredients');
   _overlay = document.querySelector('.overlay');
+  _overlayMoreIngredients = document.querySelector('.overlay-add-ingredients');
   _btnOpen = document.querySelector('.nav__btn--add-recipe');
   _btnClose = document.querySelector('.btn--close-modal');
+  _btnCloseIngredients = document.querySelector('.btn--close-ingrdients');
   _uploadColEl = document.querySelector('.upload__column');
+  _addIngredientsBtn = document.querySelector('.upload__more-ingredients');
   _ingredientInputs = document.querySelectorAll('.input-ingredient');
 
   constructor() {
     super();
     this._addHanlderShowWindow();
     this._addHanlderHideWindow();
+    this._addHanlderHideWindowMoreIngredients();
     this._ingredientsValidation();
+    this._addFieldIngredient();
+    this._addhandleConfirmIngredients();
   }
 
   _ingredientsValidation() {
@@ -105,17 +112,47 @@ class AddRecipeView extends View {
       });
     });
   }
+
   toggleWindow() {
     [this._window, this._overlay].forEach(el => el.classList.toggle('hidden'));
   }
 
+  toggleWindowMoreIngredients() {
+    [this._windowMoreIngredients, this._overlayMoreIngredients].forEach(el =>
+      el.classList.toggle('hidden'),
+    );
+  }
+
   _addHanlderShowWindow() {
     this._btnOpen.addEventListener('click', this.toggleWindow.bind(this));
+    this._addIngredientsBtn.addEventListener(
+      'click',
+      this.toggleWindowMoreIngredients.bind(this),
+    );
   }
 
   _addHanlderHideWindow() {
     this._btnClose.addEventListener('click', this.toggleWindow.bind(this));
     this._overlay.addEventListener('click', this.toggleWindow.bind(this));
+  }
+
+  _addHanlderHideWindowMoreIngredients() {
+    this._btnCloseIngredients.addEventListener(
+      'click',
+      this.toggleWindowMoreIngredients.bind(this),
+    );
+    this._overlayMoreIngredients.addEventListener(
+      'click',
+      this.toggleWindowMoreIngredients.bind(this),
+    );
+  }
+
+  _addhandleConfirmIngredients() {
+    const confirmBtn = document.querySelector('.confirm-btn');
+    confirmBtn.addEventListener('click', e => {
+      const selectEl = e.target.closest('.btn');
+      console.log('confirmed');
+    });
   }
 
   addHandlerUpload(handler) {
@@ -126,7 +163,31 @@ class AddRecipeView extends View {
       handler(data);
     });
   }
-  _generateMarkup() {}
+
+  _addFieldIngredient() {
+    const addFieldBtn = document.querySelector('.add-more-ingredient');
+    const parentField = document.querySelector('.ingredient-group');
+    addFieldBtn.addEventListener('click', e => {
+      const currentCount = parentField.querySelectorAll('input').length;
+
+      const nextNumber = 6 + currentCount;
+
+      const newField = `
+      <label>Ingredient ${nextNumber}</label>
+      <input
+        type="text"
+        required
+        name="ingredient-${nextNumber}"
+        placeholder="Format: 'Quantity,Unit,Description'"
+        class="input-ingredient input-ingredient--${nextNumber}""
+      />
+      `;
+
+      parentField.insertAdjacentHTML('beforeend', newField);
+
+      console.log(currentCount);
+    });
+  }
 }
 
 export default new AddRecipeView();

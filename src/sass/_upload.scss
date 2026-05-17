@@ -1,4 +1,5 @@
-.add-recipe-window {
+.add-recipe-window,
+.window-add-ingredients {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -12,7 +13,8 @@
   z-index: 1000;
   transition: all 0.5s;
 
-  .btn--close-modal {
+  .btn--close-modal,
+  .btn--close-ingrdients {
     font-family: inherit;
     color: inherit;
     position: absolute;
@@ -25,7 +27,13 @@
   }
 }
 
-.overlay {
+.window-add-ingredients {
+  width: 80rem;
+  z-index: 2000;
+}
+
+.overlay,
+.overlay-add-ingredients {
   position: fixed;
   top: 0;
   left: 0;
@@ -35,6 +43,10 @@
   backdrop-filter: blur(4px);
   z-index: 100;
   transition: all 0.5s;
+}
+
+.overlay-add-ingredients {
+  z-index: 1001;
 }
 
 .hidden {
@@ -96,4 +108,78 @@
     grid-column: 1 / -1;
     justify-self: center;
   }
+
+  &__more-ingredients {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 1rem 6rem;
+    font-size: 1.4rem;
+    text-transform: capitalize;
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+}
+
+.ingredient-group {
+  display: grid;
+  grid-column: 1 / -1;
+  width: 100%;
+  grid-template-columns: 1fr 2.8fr;
+  grid-auto-rows: max-content;
+  align-items: center;
+  align-content: start;
+  justify-content: start;
+  gap: 1.5rem;
+  height: 24rem;
+  overflow-y: scroll;
+
+  & label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: inherit;
+  }
+
+  & input {
+    font-size: 1.5rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+
+    &::placeholder {
+      color: $color-grey-light-3;
+    }
+
+    &:focus {
+      outline: none;
+      border: 1px solid $color-primary;
+      background-color: $color-grey-light-1;
+    }
+  }
+}
+
+.add-ingredient-container {
+  height: 46rem;
+}
+
+.form-action {
+  display: flex;
+  width: 100%;
+  grid-column: 1 / -1;
+  gap: 2rem;
+  align-items: center;
+  justify-content: end;
+  margin-top: 2rem;
+  // background-color: red;
+}
+
+.confirm-btn,
+.add-more-ingredient {
+  border-radius: 1.2rem;
+  font-size: 1.4rem;
+  padding: 1.2rem 1.6rem;
+  text-transform: capitalize;
 }
