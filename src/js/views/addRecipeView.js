@@ -14,6 +14,7 @@ class AddRecipeView extends View {
   _uploadColEl = document.querySelector('.upload__column');
   _addIngredientsBtn = document.querySelector('.upload__more-ingredients');
   _ingredientInputs = document.querySelectorAll('.input-ingredient');
+  _additionalIngredientsValue;
 
   constructor() {
     super();
@@ -23,6 +24,7 @@ class AddRecipeView extends View {
     this._ingredientsValidation();
     this._addFieldIngredient();
     this._addhandleConfirmIngredients();
+    this._additionalIngredientsValue = [];
   }
 
   _ingredientsValidation() {
@@ -146,24 +148,6 @@ class AddRecipeView extends View {
       this.toggleWindowMoreIngredients.bind(this),
     );
   }
-
-  _addhandleConfirmIngredients() {
-    const confirmBtn = document.querySelector('.confirm-btn');
-    confirmBtn.addEventListener('click', e => {
-      const selectEl = e.target.closest('.btn');
-      console.log('confirmed');
-    });
-  }
-
-  addHandlerUpload(handler) {
-    this._parentElement.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const dataArr = [...new FormData(this)];
-      const data = Object.fromEntries(dataArr);
-      handler(data);
-    });
-  }
-
   _addFieldIngredient() {
     const addFieldBtn = document.querySelector('.add-more-ingredient');
     const parentField = document.querySelector('.ingredient-group');
@@ -184,8 +168,31 @@ class AddRecipeView extends View {
       `;
 
       parentField.insertAdjacentHTML('beforeend', newField);
+    });
+  }
 
-      console.log(currentCount);
+  _addhandleConfirmIngredients() {
+    const confirmBtn = document.querySelector('.confirm-btn');
+    confirmBtn.addEventListener('click', e => {
+      const ingredientValues = document.querySelectorAll('.input-ingredient');
+      this._additionalIngredientsValue = [...ingredientValues]
+        .filter((el, i) => i > 4)
+        .map(input => [input.name, input.value]);
+    });
+  }
+
+  addHandlerUpload(handler) {
+    this._parentElement.addEventListener('submit', e => {
+      e.preventDefault();
+      console.log(this._additionalIngredientsValue);
+      const dataArr = [
+        ...new FormData(this._parentElement),
+        ...this._additionalIngredientsValue,
+      ];
+      const data = Object.fromEntries(dataArr);
+      console.log(dataArr);
+      console.log(data);
+      handler(data);
     });
   }
 }
