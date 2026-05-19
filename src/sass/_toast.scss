@@ -1,0 +1,51 @@
+$toast-bg: #333;
+$toast-color: #fff;
+$toast-radius: 5px;
+$toast-padding: 16px;
+$toast-min-width: 250px;
+
+.toast {
+  visibility: hidden;
+  min-width: $toast-min-width;
+  background-color: $color-grey-light-1;
+  color: $color-primary;
+  text-align: center;
+  border-radius: $toast-radius;
+  padding: $toast-padding;
+  font-size: 1.2rem;
+  font-weight: 700;
+  position: fixed;
+  z-index: 9999;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  &.show {
+    visibility: visible;
+    animation:
+      fadein 0.5s,
+      fadeout 0.5s 2.5s;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}

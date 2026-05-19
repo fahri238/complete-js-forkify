@@ -127,10 +127,13 @@ class AddRecipeView extends View {
 
   _addHanlderShowWindow() {
     this._btnOpen.addEventListener('click', this.toggleWindow.bind(this));
-    this._addIngredientsBtn.addEventListener(
-      'click',
-      this.toggleWindowMoreIngredients.bind(this),
-    );
+    this._addIngredientsBtn.addEventListener('click', e => {
+      [...this._ingredientInputs]
+        .filter((el, i) => i < 5)
+        .every(el => Boolean(el.value))
+        ? this.toggleWindowMoreIngredients()
+        : this._showToast('Fill the provided ingredients fields first');
+    });
   }
 
   _addHanlderHideWindow() {
@@ -148,6 +151,7 @@ class AddRecipeView extends View {
       this.toggleWindowMoreIngredients.bind(this),
     );
   }
+
   _addFieldIngredient() {
     const addFieldBtn = document.querySelector('.add-more-ingredient');
     const parentField = document.querySelector('.ingredient-group');
@@ -175,9 +179,13 @@ class AddRecipeView extends View {
     const confirmBtn = document.querySelector('.confirm-btn');
     confirmBtn.addEventListener('click', e => {
       const ingredientValues = document.querySelectorAll('.input-ingredient');
+
+      this.toggleWindowMoreIngredients();
       this._additionalIngredientsValue = [...ingredientValues]
         .filter((el, i) => i > 4)
         .map(input => [input.name, input.value]);
+      this._showToast('Additional ingredients have been added');
+      console.log('clicked');
     });
   }
 
@@ -190,10 +198,19 @@ class AddRecipeView extends View {
         ...this._additionalIngredientsValue,
       ];
       const data = Object.fromEntries(dataArr);
-      console.log(dataArr);
-      console.log(data);
       handler(data);
     });
+  }
+
+  _showToast(toastMsg) {
+    const toast = document.getElementById('toast');
+
+    toast.className = 'toast show';
+    toast.innerText = toastMsg;
+
+    setTimeout(function () {
+      toast.className = toast.className.replace('show', '');
+    }, 3000);
   }
 }
 
