@@ -19,11 +19,6 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { MODAL_CLOSE_SEC } from './config.js';
 
-// prevent refresh browser when code change
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -146,10 +141,6 @@ const controlAddRecipe = async function (newRecipe) {
   }
 };
 
-const greeting = function () {
-  console.log('Welcome to the application!!');
-};
-
 // Subscriber
 const init = function () {
   bookmarkView.addHandlerRender(controlBookmarks);
@@ -160,6 +151,5 @@ const init = function () {
   sortView.addHandlerSort(controlSort);
   paginationView._addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
-  greeting();
 };
 init();
